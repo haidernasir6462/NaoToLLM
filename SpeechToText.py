@@ -22,8 +22,3 @@ def convert_wav_to_text(wav_file_path):
         return "Google Speech Recognition could not understand audio"
     except sr.RequestError as e:
         return f"Could not request results from Google Speech Recognition service; {e}"
-
-# if __name__ == "__main__":
-#     wav_file_path = "whatIsYoutube.wav"
-#     result = convert_wav_to_text(wav_file_path)
-#     print("Transcribed Text:", result)
