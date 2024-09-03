@@ -1,16 +1,15 @@
 import requests
 import json
 
-def generate_text(prompt):
+def generate_response(prompt):
     # Define the URL of the API endpoint
-    url = "http://localhost:11434/api/generate"
-    # url = "https://data.fixer.io/api/latest"
+    url = "http://192.168.1.12:11434/api/generate"
 
     # Create the payload for the request
     payload = {
-        "model": "llama3",
+        "model": "llama3.1",
         "prompt": prompt,
-        "stream": False
+        # "stream": False
     }
 
     try:
@@ -19,13 +18,21 @@ def generate_text(prompt):
 
         # Check if the request was successful
         if response.status_code == 200:
-            # Parse the JSON response
-            response_json = response.json()
+            full_response_text = ""
+            
+            # Iterate over the response lines
+            for line in response.iter_lines():
+                if line:  # Check if the line is not empty
+                    try:
+                        # Parse each line as JSON
+                        response_json = json.loads(line.decode('utf-8'))
+                        # Extract and concatenate the "response" field
+                        full_response_text += response_json.get("response", "")
+                    except json.JSONDecodeError as e:
+                        print(f"Error decoding JSON: {e}")
+                        continue
 
-            # Extract the "response" key from the JSON response
-            generated_text = response_json.get("response", "")
-
-            return generated_text
+            return full_response_text
         else:
             # If the request failed, return an error message
             return f"Error: {response.status_code} - {response.text}"
@@ -35,8 +42,3 @@ def generate_text(prompt):
 
     except requests.exceptions.RequestException as e:
         return f"Error: An error occurred: {e}"
-
-# Example usage
-prompt_text = "Why is the sky blue?"
-response_text = generate_text(prompt_text)
-print(response_text)
