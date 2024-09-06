@@ -1,5 +1,5 @@
 # Assuming you have the converted text in a variable named 'converted_text'
-from APIs.getResponsefromLLM import generate_response
+from APIs.getResponseFromLLMgenerateAPI import generate_response
 from SpeechToText import convert_wav_to_text
 
 if __name__ == "__main__":
