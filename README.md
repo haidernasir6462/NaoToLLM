@@ -63,10 +63,6 @@ Contributions are welcome! Please feel free to submit issues or pull requests. W
 4. Push to the branch (`git push origin feature/your-feature`).
 5. Open a pull request.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgments
 
 - [Naoqi SDK](http://doc.aldebaran.com/) for providing the API to control Nao robots.
