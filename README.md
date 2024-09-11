@@ -27,13 +27,10 @@ To run this project, you'll need the following:
    git clone https://github.com/your-username/NaoToLLM.git
    cd NaoToLLM
    ```
-
 2. Install the required Python dependencies:
    pip install -r requirements.txt
-   ```
-
+   ``
 3. Configure API credentials for the LLM service (e.g., OpenAI API key or Ollama API credentials) 
-
 4. Set up Nao's IP address and port
 
 
