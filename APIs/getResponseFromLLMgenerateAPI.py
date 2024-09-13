@@ -3,7 +3,7 @@ import json
 
 def generate_response(prompt):
     # Define the URL of the API endpoint
-    url = "http://192.168.1.12:11434/api/generate"
+    url = "http://192.168.138.153:11434/api/generate"
 
     # Create the payload for the request
     payload = {
