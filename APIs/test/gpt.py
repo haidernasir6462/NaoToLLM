@@ -15,46 +15,39 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self):
-        # Simple print to test if requests is available
         print("Starting to send request...")
 
         try:
             # Define the URL of the Ollama server API
-            url = 'http://192.168.138.153:11434/api/generate'
+            url = 'http://192.168.203.153:11434/api/generate'
             
             # Define the payload (you can customize this based on your API)
             payload = {
                 "model": "llama3.1",
-                'prompt': 'Hello, NAO robot here! What should I do?'
+                'prompt': 'what is youtube. give me one line'
             }
             
             # Test if the requests module works
             self.tts.say("Sending request to server")
 
             # Send the request to the Ollama server
-            response = requests.post(url, json=payload, stream=True)  # Using stream=True to handle multiple JSON objects
+            response = requests.post(url, json=payload, stream=False)
+                
+            if response.status_code == 200:
             
-            self.tts.say("Received response from server")
+                full_response = ""
+                # Parse the JSON response, extract the actual response
+                raw_data = response.text.strip().splitlines()
+                for item in raw_data:
+                    parsed_item = json.loads(item)
+                    response_value = parsed_item.get('response')
+                    response_value += " "
+                    full_response += response_value  # Accumulate the text
+                    
+                self.tts.say(str(full_response))
 
-            # Initialize an empty string to hold the final response
-            full_response = ""
-            for line in response.iter_lines():
-                if line:
-                    try:
-                        # Decode and parse each JSON object
-                        response_data = json.loads(line.decode('utf-8'))
-                        response_text = response_data.get('response', '')
-                        if response_text:  # Check if response_text is not empty
-                            full_response += response_text  # Accumulate the text
-                    except json.JSONDecodeError as e:
-                        print("JSON decode error:", e)
-                        self.tts.say("Error parsing JSON")
-
-            # Ensure full_response is not empty
-            if full_response.strip():  # Check if full_response has any content
-                self.tts.say("Response from server: " + full_response)
             else:
-                self.tts.say("No valid response from server.")
+                self.tts.say("Failed to fetch a response. Status code: " + str(response.status_code))
 
         except Exception as e:
             # Catching any exception and reporting it using TTS
