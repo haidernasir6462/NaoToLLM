@@ -24,7 +24,7 @@ To run this project, you'll need the following:
 ### Installation
 
 1. Clone the repository:
-   git clone https://github.com/your-username/NaoToLLM.git
+   git clone https://github.com/haidernasir6462/NaoToLLM.git
    cd NaoToLLM
    ```
 2. Install the required Python dependencies:
