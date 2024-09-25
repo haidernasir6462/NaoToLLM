@@ -20,7 +20,7 @@ class MyClass(GeneratedClass):
         self.tts.say(prompt)
         try:
             # Define the URL of the Ollama server API
-            url = 'http://192.168.203.153:11434/api/generate'
+            url = 'http://192.168.154.262:11434/api/generate'
             
             # Define the payload (you can customize this based on your API)
             payload = {
