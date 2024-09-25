@@ -164,6 +164,12 @@ class MyClass(GeneratedClass):
         self.tts.say("I will now play what you said.")
         self.playRecordedAudio()
 
+        # NAO send the audio to next box
+        self.tts.say("I am going to send recording to next box.")
+        self.sendRecordedAudio()
+        self.tts.say("recording sent successfully by output 1.")
+
+
         # Activate the output of the box
         self.onStopped()
 
@@ -180,6 +186,12 @@ class MyClass(GeneratedClass):
         """Play the recorded audio using NAO's speakers."""
         try:
             self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
+
+    def sendRecordedAudio(self):
+        """send the recorded audio to next box."""
+        try:
+            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
+
         except Exception as e:
             error_message = "Error playing the recorded audio: {0}".format(str(e))
             print(error_message)
@@ -194,6 +206,7 @@ class MyClass(GeneratedClass):
               <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
               <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+              <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
             <Box name="Speech Reco." id="3" localization="8" tooltip="Recognize a word from a list of words set in the box parameters.&#x0A;&#x0A;V1.1.0&#x0A;" x="481" y="499">
               <bitmap>media/images/box/interaction/ear.png</bitmap>
@@ -347,6 +360,8 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
             </Box>
             <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="5" />
+            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+            <Link inputowner="4" indexofinput="2" outputowner="1" indexofoutput="5" />
           </Diagram>
         </BehaviorKeyframe>
       </BehaviorLayer>

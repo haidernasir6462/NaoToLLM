@@ -49,6 +49,8 @@ class MyClass(GeneratedClass):
         """Play the recorded audio using NAO's speakers."""
         try:
             self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
+            # self.output_1(self.audio_path)  # Send the audio file to the next box through output_1
+
         except Exception as e:
             error_message = "Error playing the recorded audio: {0}".format(str(e))
             print(error_message)
