@@ -3,8 +3,8 @@ import time
 from naoqi import ALProxy
 
 class MyClass(GeneratedClass):
-    def _init_(self):
-        GeneratedClass._init_(self)
+    def __init__(self):  # Corrected the constructor name
+        GeneratedClass.__init__(self)
 
     def onLoad(self):
         # Initialization code
@@ -33,6 +33,11 @@ class MyClass(GeneratedClass):
         self.tts.say("I will now play what you said.")
         self.playRecordedAudio()
 
+        # NAO sends the audio to the next box
+        self.tts.say("I am going to send the recording to the next box.")
+        self.sendRecordedAudio()
+        self.tts.say("Recording sent successfully by output 1.")
+
         # Activate the output of the box
         self.onStopped()
 
@@ -49,13 +54,20 @@ class MyClass(GeneratedClass):
         """Play the recorded audio using NAO's speakers."""
         try:
             self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
-            # self.output_1(self.audio_path)  # Send the audio file to the next box through output_1
-
         except Exception as e:
             error_message = "Error playing the recorded audio: {0}".format(str(e))
             print(error_message)
             self.tts.say(error_message)
 
+    def sendRecordedAudio(self):
+        """Send the recorded audio to the next box."""
+        try:
+            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
+        except Exception as e:
+            error_message = "Error sending recorded audio: {0}".format(str(e))
+            print(error_message)
+            self.tts.say(error_message)
+
     def onInput_onStop(self):
-        self.onUnload()
-        self.onStopped()
+        self.onUnload()  # Clean up on stop
+        self.onStopped()  # Activate the output of the box
