@@ -165,9 +165,9 @@ class MyClass(GeneratedClass):
         self.playRecordedAudio()
 
         # NAO send the audio to next box
-        self.tts.say("I am going to send recording to next box.")
-        self.sendRecordedAudio()
-        self.tts.say("recording sent successfully by output 1.")
+#        self.tts.say("I am going to send recording to next box.")
+#        self.sendRecordedAudio()
+#        self.tts.say("recording sent successfully by output 1.")
 
 
         # Activate the output of the box
@@ -187,10 +187,10 @@ class MyClass(GeneratedClass):
         try:
             self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
 
-    def sendRecordedAudio(self):
-        """send the recorded audio to next box."""
-        try:
-            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
+#    def sendRecordedAudio(self):
+#        """send the recorded audio to next box."""
+#        try:
+#            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
 
         except Exception as e:
             error_message = "Error playing the recorded audio: {0}".format(str(e))
@@ -300,7 +300,7 @@ class MyClass(GeneratedClass):
 class MyClass(GeneratedClass):
     def __init__(self):
         GeneratedClass.__init__(self)
-        self.audio_file_path = 'path/to/your/audiofile.wav'  # Define the path to your audio file
+        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Define the path to your audio file
 
     def onLoad(self):
         # Initialization code
@@ -342,9 +342,13 @@ class MyClass(GeneratedClass):
         except Exception as e:
             return "An error occurred: {0}".format(e)
 
-    def onInput_onStart(self):
+    def onInput_onStart(self, p):
+
+#        print("receiving the audio file")
+#        audio = p
+#        self.tts.say(audio)
         # Process the audio and print the text
-        text = self.audio_to_text()
+#        text = self.audio_to_text()
         print("Converted Text:", text)
         # Activate the output of the box
         # self.onStopped() # Uncomment this if needed
@@ -355,13 +359,12 @@ class MyClass(GeneratedClass):
                 </content>
               </script>
               <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
-              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
               <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
             </Box>
             <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="5" />
             <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
-            <Link inputowner="4" indexofinput="2" outputowner="1" indexofoutput="5" />
           </Diagram>
         </BehaviorKeyframe>
       </BehaviorLayer>
