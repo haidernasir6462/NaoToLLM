@@ -26,15 +26,10 @@ class MyClass(GeneratedClass):
         time.sleep(5)
 
         # Stop recording
-        self.tts.say("Recording complete.")
         self.stopRecording()
-
-        # NAO speaks and plays back the recorded audio
-        self.tts.say("I will now play what you said.")
-        self.playRecordedAudio()
+        self.tts.say("Recording complete.")
 
         # NAO sends the audio to the next box
-        self.tts.say("I am going to send the recording to the next box.")
         self.sendRecordedAudio()
         self.tts.say("Recording sent successfully by output 1.")
 
@@ -49,15 +44,6 @@ class MyClass(GeneratedClass):
     def stopRecording(self):
         """Stop the audio recording."""
         self.audio_recorder.stopMicrophonesRecording()
-
-    def playRecordedAudio(self):
-        """Play the recorded audio using NAO's speakers."""
-        try:
-            self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
-        except Exception as e:
-            error_message = "Error playing the recorded audio: {0}".format(str(e))
-            print(error_message)
-            self.tts.say(error_message)
 
     def sendRecordedAudio(self):
         """Send the recorded audio to the next box."""
