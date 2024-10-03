@@ -7,7 +7,7 @@ import os
 class MyClass(GeneratedClass):
     def _init_(self):
         GeneratedClass._init_(self)
-        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Update with your audio file path
+        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # audio file path where recording is saved
 
     def onLoad(self):
         # Initialization code
@@ -19,12 +19,10 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p ):
-        self.tts.say("I have received the recording. I am going to play it")
-        self.audio_player.playFile(p)  # Play the recorded WAV file
 
         # Localize the variables to avoid attribute conflicts
         upload_url = "https://api.assemblyai.com/v2/upload"
-        transcript_url = "https://api.assemblyai.com/v2/transcript"
+        transcript_url = "https://api.assemblyai.com/v2/transcript" #external assembly AI API
         api_key = "57d2a68a356d43a597b482db470becbf"
 
         # Step 1: Upload the audio file
@@ -41,9 +39,7 @@ class MyClass(GeneratedClass):
                     text = transcript['text']
                     print("Transcription response:", text)
                     self.tts.say(str(text))  # NAO speaks the transcribed text
-                    # NAO sends the audio to the next box
-                    
-                    self.tts.say("I am going to send the recording to the next box.")
+                    # NAO sends the audio to the next box                    
                     self.SendTranscribedTextToLLama(str(text))
                     self.tts.say("Recording sent successfully by output 1.")
                     
