@@ -15,7 +15,7 @@
       <BehaviorLayer name="behavior_layer1">
         <BehaviorKeyframe name="keyframe1" index="1">
           <Diagram>
-            <Box name="SendAndReceiveText" id="5" localization="8" tooltip="" x="325" y="277">
+            <Box name="SendAndReceiveText" id="5" localization="8" tooltip="" x="1178" y="534">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -47,7 +47,7 @@
               <Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="3" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="LLM_Response" id="2" localization="8" tooltip="Say the text received on its input." x="666" y="270">
+            <Box name="LLM_Response" id="2" localization="8" tooltip="Say the text received on its input." x="808" y="179">
               <bitmap>media/images/box/interaction/say.png</bitmap>
               <script language="4">
                 <content>
@@ -57,7 +57,9 @@ import json
 
 class MyClass(GeneratedClass):
     def __init__(self):
+        # Correct __init__ method with double underscores
         GeneratedClass.__init__(self)
+        self.conversation_history = []  # Initialize the conversation history as a list
 
     def onLoad(self):
         # Initialization code
@@ -68,37 +70,50 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p):
-        print("Starting to send request...")
-        prompt= str(p)
-        self.tts.say(prompt)
+        self.tts.say("Starting to send request...")
+
+        user_input = str(p)  # Get the user's input
+
+        # Add the user's message to the conversation history
+        self.conversation_history.append({
+            "role": "user",
+            "content": user_input
+        })
+
+        # Example message to demonstrate the working list
+        self.tts.say("User input has been added to history")
+
         try:
             # Define the URL of the Ollama server API
-            url = 'http://192.168.203.153:11434/api/generate'
+            url = 'http://192.168.76.153:11434/api/chat'
 
-            # Define the payload (you can customize this based on your API)
+            # Prepare the payload for Ollama including the conversation history
             payload = {
                 "model": "llama3.1",
-                'prompt': prompt
+                "messages": self.conversation_history  # Send the conversation history
             }
 
-            # Test if the requests module works
             self.tts.say("Sending request to server")
 
             # Send the request to the Ollama server
-            response = requests.post(url, json=payload, stream=False)
+            response = requests.post(url, json=payload)
 
             if response.status_code == 200:
-
                 full_response = ""
-                # Parse the JSON response, extract the actual response
+                # Parse the JSON response
                 raw_data = response.text.strip().splitlines()
                 for item in raw_data:
                     parsed_item = json.loads(item)
-                    response_value = parsed_item.get('response')
-                    response_value += " "
-                    full_response += response_value  # Accumulate the text
+                    message = parsed_item.get('message', {})
+                    response_value = message.get('content', "")
+                    full_response += response_value + " "  # Accumulate the text
 
-                self.tts.say(str(full_response))
+                self.tts.say(str(full_response.strip()))  # Speak the accumulated text
+                self.conversation_history.append({
+                    "role": "assistant",
+                    "content": full_response.strip()
+                })
+
 
             else:
                 self.tts.say("Failed to fetch a response. Status code: " + str(response.status_code))
@@ -113,7 +128,7 @@ class MyClass(GeneratedClass):
         self.onStopped()
 
     def onInput_onStop(self):
-        self.onUnload()  # Clean-up when the box is stopped
+        self.onUnload()  # Clean up when the box is stopped
         self.onStopped()  # Activate the output of the box]]>
                 </content>
               </script>
@@ -125,7 +140,7 @@ class MyClass(GeneratedClass):
               <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="6" />
               <Resource name="Speech" type="Lock" timeout="0" />
             </Box>
-            <Box name="Listener" id="1" localization="8" tooltip="" x="258" y="82">
+            <Box name="Listener" id="1" localization="8" tooltip="" x="155" y="129">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -134,8 +149,8 @@ import time
 from naoqi import ALProxy
 
 class MyClass(GeneratedClass):
-    def _init_(self):
-        GeneratedClass._init_(self)
+    def __init__(self):  # Corrected the constructor name
+        GeneratedClass.__init__(self)
 
     def onLoad(self):
         # Initialization code
@@ -157,18 +172,17 @@ class MyClass(GeneratedClass):
         time.sleep(5)
 
         # Stop recording
-        self.tts.say("Recording complete.")
         self.stopRecording()
+        self.tts.say("Recording complete.")
 
-        # NAO speaks and plays back the recorded audio
-        self.tts.say("I will now play what you said.")
-        self.playRecordedAudio()
 
-        # NAO send the audio to next box
-#        self.tts.say("I am going to send recording to next box.")
-#        self.sendRecordedAudio()
-#        self.tts.say("recording sent successfully by output 1.")
+#        # NAO speaks and plays back the recorded audio
+#        self.tts.say("I will now play what you said.")
+#        self.playRecordedAudio()
 
+        # NAO sends the audio to the next box
+        self.sendRecordedAudio()
+        self.tts.say("Recording sent successfully by output 1.")
 
         # Activate the output of the box
         self.onStopped()
@@ -182,24 +196,27 @@ class MyClass(GeneratedClass):
         """Stop the audio recording."""
         self.audio_recorder.stopMicrophonesRecording()
 
-    def playRecordedAudio(self):
-        """Play the recorded audio using NAO's speakers."""
-        try:
-            self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
-
-#    def sendRecordedAudio(self):
-#        """send the recorded audio to next box."""
+#    def playRecordedAudio(self):
+#        """Play the recorded audio using NAO's speakers."""
 #        try:
-#            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
+#            self.audio_player.playFile(self.audio_path)  # Play the recorded WAV file
+#        except Exception as e:
+#            error_message = "Error playing the recorded audio: {0}".format(str(e))
+#            print(error_message)
+#            self.tts.say(error_message)
 
+    def sendRecordedAudio(self):
+        """Send the recorded audio to the next box."""
+        try:
+            self.output_1(self.audio_path)  # Send the audio to the next box through output_1
         except Exception as e:
-            error_message = "Error playing the recorded audio: {0}".format(str(e))
+            error_message = "Error sending recorded audio: {0}".format(str(e))
             print(error_message)
             self.tts.say(error_message)
 
     def onInput_onStop(self):
-        self.onUnload()
-        self.onStopped()]]>
+        self.onUnload()  # Clean up on stop
+        self.onStopped()  # Activate the output of the box]]>
                 </content>
               </script>
               <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
@@ -208,7 +225,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="Speech Reco." id="3" localization="8" tooltip="Recognize a word from a list of words set in the box parameters.&#x0A;&#x0A;V1.1.0&#x0A;" x="481" y="499">
+            <Box name="Speech Reco." id="3" localization="8" tooltip="Recognize a word from a list of words set in the box parameters.&#x0A;&#x0A;V1.1.0&#x0A;" x="1034" y="546">
               <bitmap>media/images/box/interaction/ear.png</bitmap>
               <script language="4">
                 <content>
@@ -291,80 +308,190 @@ class MyClass(GeneratedClass):
               <Parameter name="Enable word spotting" inherits_from_parent="0" content_type="0" value="0" default_value="0" tooltip="If this option is not activated the robot will only understand exact expressions. If it is, he will spot the exact expressions even in the middle of a sentence.&#x0A;&#x0A;!!Warning!! This option is only available with the speech recognition module using Nuance (ie in Atom version of the robot)." id="9" />
               <Resource name="Speech recognition" type="Lock" timeout="0" />
             </Box>
-            <Box name="SpeechToTextConverter" id="4" localization="8" tooltip="" x="549" y="90">
+            <Box name="test" id="6" localization="8" tooltip="" x="904" y="562">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
-                  <![CDATA[import speech_recognition as sr
-
-class MyClass(GeneratedClass):
+                  <![CDATA[class MyClass(GeneratedClass):
     def __init__(self):
         GeneratedClass.__init__(self)
-        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Define the path to your audio file
 
     def onLoad(self):
-        # Initialization code
+        #put initialization code here
         pass
 
     def onUnload(self):
-        # Clean-up code
+        #put clean-up code here
         pass
 
-
-    def access_recorded_audio(self):
-        # Open and read the recorded file
-        try:
-            with open(self.audio_file_path, 'rb') as audio_file:
-                audio_data = audio_file.read()
-                # Do something with the audio data (e.g., analyze it)
-                print("Successfully accessed the recorded audio.")
-                # Example: print first 100 bytes (if it's not too large)
-                print(audio_data[:100])
-        except IOError as e:
-            print("Failed to access the recorded audio file: {0}".format(e))
-    def audio_to_text(self):
-        # Initialize recognizer
-        recognizer = sr.Recognizer()
-
-        try:
-            # Load audio file
-            with sr.AudioFile(self.audio_file_path) as source:
-                audio = recognizer.record(source)
-
-            # Recognize speech using Google Web Speech API
-            text = recognizer.recognize_google(audio)
-            return text
-
-        except sr.UnknownValueError:
-            return "Google Web Speech API could not understand the audio"
-        except sr.RequestError as e:
-            return "Could not request results from Google Web Speech API; {0}".format(e)
-        except Exception as e:
-            return "An error occurred: {0}".format(e)
-
-    def onInput_onStart(self, p):
-
-#        print("receiving the audio file")
-#        audio = p
-#        self.tts.say(audio)
-        # Process the audio and print the text
-#        text = self.audio_to_text()
-        print("Converted Text:", text)
-        # Activate the output of the box
-        # self.onStopped() # Uncomment this if needed
+    def onInput_onStart(self):
+        #self.onStopped() #activate the output of the box
+        pass
 
     def onInput_onStop(self):
-        self.onUnload()  # Reuse the clean-up as the box is stopped
-        self.onStopped()  # Activate the output of the box]]>
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+            </Box>
+            <Box name="AssemblyAI" id="7" localization="8" tooltip="" x="485" y="157">
+              <bitmap>media/images/box/box-python-script.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[import time
+import requests
+from naoqi import ALProxy
+import json
+import os
+
+class MyClass(GeneratedClass):
+    def _init_(self):
+        GeneratedClass._init_(self)
+        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Update with your audio file path
+
+    def onLoad(self):
+        # Initialization code
+        self.tts = ALProxy("ALTextToSpeech")  # Use TTS to speak messages
+        self.audio_player = ALProxy("ALAudioPlayer")  # Proxy for playing the recorded audio
+
+    def onUnload(self):
+        # Clean-up code here
+        pass
+
+    def onInput_onStart(self, p ):
+#        self.tts.say("I have received the recording. I am going to play it")
+##        self.audio_player.playFile(p)  # Play the recorded WAV file
+
+        # Localize the variables to avoid attribute conflicts
+        upload_url = "https://api.assemblyai.com/v2/upload"
+        transcript_url = "https://api.assemblyai.com/v2/transcript"
+        api_key = "57d2a68a356d43a597b482db470becbf"
+
+        # Step 1: Upload the audio file
+        audio_url = self.upload_audio(upload_url, api_key, p)
+
+        if audio_url:
+            # Step 2: Request transcription
+            transcript_id = self.request_transcription(transcript_url, api_key, audio_url)
+
+            if transcript_id:
+                # Step 3: Poll for the transcription status
+                transcript = self.poll_transcription_status(transcript_url, api_key, transcript_id)
+                if transcript:
+                    text = transcript['text']
+                    print("Transcription response:", text)
+                    self.tts.say(str(text))  # NAO speaks the transcribed text
+                    # NAO sends the audio to the next box
+
+                    self.tts.say("I am going to send the recording to the next box.")
+                    self.SendTranscribedTextToLLama(str(text))
+                    self.tts.say("Recording sent successfully by output 1.")
+
+                else:
+                    print("Failed to retrieve the transcription.")
+            else:
+                print("Failed to get a response from the transcription request.")
+        else:
+            print("Failed to upload audio.")
+
+        self.onStopped()
+
+    def SendTranscribedTextToLLama(self,Transcribedtext):
+        """Send the transcribed text to the next box."""
+        try:
+            self.output_1(Transcribedtext)  # Send the audio to the next box through output_1
+        except Exception as e:
+            error_message = "Error sending Transcribed text: {0}".format(str(e))
+            print(error_message)
+            self.tts.say(error_message)
+
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload()  # Clean up when stopped
+        self.onStopped()  # Trigger next behavior
+
+    def upload_audio(self, upload_url, api_key, audio_file_path):
+        """Upload the audio file to AssemblyAI and return the audio URL."""
+        headers = {
+            "authorization": api_key,
+        }
+
+        with open(audio_file_path, 'rb') as audio_file:
+            response = requests.post(upload_url, headers=headers, data=audio_file)
+
+        if response.status_code == 200:
+            upload_response = response.json()
+            return upload_response['upload_url']  # Return the uploaded audio URL
+        else:
+            print("Failed to upload audio with status code {}: {}".format(response.status_code, response.text))
+            return None
+
+    def request_transcription(self, transcript_url, api_key, audio_url):
+        """Send the POST request to AssemblyAI API for transcription and return the transcript ID."""
+        headers = {
+            "Authorization": api_key,
+            "Content-Type": "application/json"
+        }
+        data = {
+            "audio_url": audio_url
+        }
+
+        try:
+            print("Sending transcription request to AssemblyAI...")
+            response = requests.post(transcript_url, headers=headers, json=data)
+
+            if response.status_code == 200:
+                transcript_data = response.json()
+                return transcript_data['id']  # Return the transcript ID for polling
+            else:
+                print("Failed with status code {}: {}".format(response.status_code, response.text))
+                return None
+
+        except requests.RequestException as e:
+            print("An error occurred while sending the request: {}".format(e))
+            return None
+
+    def poll_transcription_status(self, transcript_url, api_key, transcript_id):
+        """Poll the transcription status until it is completed."""
+        headers = {
+            "Authorization": api_key,
+            "Content-Type": "application/json"
+        }
+
+        while True:
+            time.sleep(5)  # Wait for 5 seconds before polling
+            response = requests.get("{}/{}".format(transcript_url, transcript_id), headers=headers)
+
+            if response.status_code == 200:
+                transcript_data = response.json()
+                status = transcript_data['status']
+                print("Current status:", status)
+
+                if status == 'completed':
+                    return transcript_data  # Return the completed transcript data
+                elif status == 'failed':
+                    print("Transcription failed.")
+                    return None
+            else:
+                print("Failed to poll with status code {}: {}".format(response.status_code, response.text))
+                return None]]>
                 </content>
               </script>
               <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
               <Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
               <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+              <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="5" />
             <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+            <Link inputowner="7" indexofinput="2" outputowner="1" indexofoutput="5" />
+            <Link inputowner="2" indexofinput="2" outputowner="7" indexofoutput="5" />
+            <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="4" />
           </Diagram>
         </BehaviorKeyframe>
       </BehaviorLayer>

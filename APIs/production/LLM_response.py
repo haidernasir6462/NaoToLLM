@@ -4,7 +4,9 @@ import json
 
 class MyClass(GeneratedClass):
     def __init__(self):
+        # Correct __init__ method with double underscores
         GeneratedClass.__init__(self)
+        self.conversation_history = []  # Initialize the conversation history as a list
 
     def onLoad(self):
         # Initialization code
@@ -15,37 +17,50 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p):
-        print("Starting to send request...")
-        prompt= str(p)
-        self.tts.say(prompt)
+        self.tts.say("Starting to send request...")
+        
+        user_input = str(p)  # Get the user's input
+
+        # Add the user's message to the conversation history
+        self.conversation_history.append({
+            "role": "user",
+            "content": user_input
+        })
+        
+        # Example message to demonstrate the working list
+        self.tts.say("User input has been added to history")
+
         try:
             # Define the URL of the Ollama server API
-            url = 'http://192.168.154.262:11434/api/generate'
-            
-            # Define the payload (you can customize this based on your API)
+            url = 'http://192.168.76.153:11434/api/chat'
+
+            # Prepare the payload for Ollama including the conversation history
             payload = {
                 "model": "llama3.1",
-                'prompt': prompt
+                "messages": self.conversation_history  # Send the conversation history
             }
-            
-            # Test if the requests module works
+
             self.tts.say("Sending request to server")
 
             # Send the request to the Ollama server
-            response = requests.post(url, json=payload, stream=False)
-                
+            response = requests.post(url, json=payload)
+
             if response.status_code == 200:
-            
                 full_response = ""
-                # Parse the JSON response, extract the actual response
+                # Parse the JSON response
                 raw_data = response.text.strip().splitlines()
                 for item in raw_data:
                     parsed_item = json.loads(item)
-                    response_value = parsed_item.get('response')
-                    response_value += " "
-                    full_response += response_value  # Accumulate the text
-                    
-                self.tts.say(str(full_response))
+                    message = parsed_item.get('message', {})
+                    response_value = message.get('content', "")
+                    full_response += response_value + " "  # Accumulate the text
+
+                self.tts.say(str(full_response.strip()))  # Speak the accumulated text
+                self.conversation_history.append({
+                    "role": "assistant",
+                    "content": full_response.strip()
+                })
+
 
             else:
                 self.tts.say("Failed to fetch a response. Status code: " + str(response.status_code))
@@ -60,5 +75,5 @@ class MyClass(GeneratedClass):
         self.onStopped()
 
     def onInput_onStop(self):
-        self.onUnload()  # Clean-up when the box is stopped
+        self.onUnload()  # Clean up when the box is stopped
         self.onStopped()  # Activate the output of the box
