@@ -1,0 +1,142 @@
+[
+    {
+      "name": "Rice",
+      "price": 2.5,
+      "ingredients": ["Rice"],
+      "allergens": [],
+      "location": {"aisle": 7, "section": "Left"}
+    },
+    {
+      "name": "Almond Milk",
+      "price": 3.0,
+      "ingredients": ["Water", "Almonds"],
+      "allergens": ["Nuts"],
+      "location": {"aisle": 5, "section": "Right"}
+    },
+    {
+      "name": "Oatmeal",
+      "price": 4.0,
+      "ingredients": ["Oats"],
+      "allergens": ["Gluten"],
+      "location": {"aisle": 6, "section": "Center"}
+    },
+    {
+      "name": "Spaghetti",
+      "price": 1.5,
+      "ingredients": ["Durum Wheat Semolina"],
+      "allergens": ["Gluten"],
+      "location": {"aisle": 9, "section": "Left"}
+    },
+    {
+      "name": "Chicken Breast",
+      "price": 7.0,
+      "ingredients": ["Chicken"],
+      "allergens": [],
+      "location": {"aisle": 2, "section": "Refrigerated"}
+    },
+    {
+      "name": "Greek Yogurt",
+      "price": 5.0,
+      "ingredients": ["Milk", "Live Cultures"],
+      "allergens": ["Dairy"],
+      "location": {"aisle": 4, "section": "Refrigerated"}
+    },
+    {
+      "name": "Peanut Butter",
+      "price": 4.5,
+      "ingredients": ["Peanuts", "Salt"],
+      "allergens": ["Nuts"],
+      "location": {"aisle": 3, "section": "Right"}
+    },
+    {
+      "name": "Honey",
+      "price": 6.0,
+      "ingredients": ["Honey"],
+      "allergens": [],
+      "location": {"aisle": 4, "section": "Center"}
+    },
+    {
+      "name": "Quinoa",
+      "price": 3.5,
+      "ingredients": ["Quinoa"],
+      "allergens": [],
+      "location": {"aisle": 7, "section": "Left"}
+    },
+    {
+      "name": "Tomato Sauce",
+      "price": 2.2,
+      "ingredients": ["Tomatoes", "Salt", "Olive Oil"],
+      "allergens": [],
+      "location": {"aisle": 8, "section": "Center"}
+    },
+    {
+      "name": "Mozzarella Cheese",
+      "price": 4.2,
+      "ingredients": ["Milk", "Salt", "Enzymes"],
+      "allergens": ["Dairy"],
+      "location": {"aisle": 4, "section": "Refrigerated"}
+    },
+    {
+      "name": "Apple Juice",
+      "price": 3.8,
+      "ingredients": ["Apples", "Water"],
+      "allergens": [],
+      "location": {"aisle": 5, "section": "Left"}
+    },
+    {
+      "name": "Sourdough Bread",
+      "price": 5.5,
+      "ingredients": ["Flour", "Water", "Salt"],
+      "allergens": ["Gluten"],
+      "location": {"aisle": 3, "section": "Center"}
+    },
+    {
+      "name": "Salmon Fillet",
+      "price": 10.5,
+      "ingredients": ["Salmon"],
+      "allergens": ["Fish"],
+      "location": {"aisle": 1, "section": "Refrigerated"}
+    },
+    {
+      "name": "Broccoli",
+      "price": 1.8,
+      "ingredients": ["Broccoli"],
+      "allergens": [],
+      "location": {"aisle": 10, "section": "Produce"}
+    },
+    {
+      "name": "Eggs",
+      "price": 3.0,
+      "ingredients": ["Eggs"],
+      "allergens": ["Eggs"],
+      "location": {"aisle": 4, "section": "Refrigerated"}
+    },
+    {
+      "name": "Tuna in Water",
+      "price": 2.9,
+      "ingredients": ["Tuna", "Water", "Salt"],
+      "allergens": ["Fish"],
+      "location": {"aisle": 9, "section": "Right"}
+    },
+    {
+      "name": "Dark Chocolate",
+      "price": 4.0,
+      "ingredients": ["Cocoa", "Sugar", "Cocoa Butter"],
+      "allergens": [],
+      "location": {"aisle": 3, "section": "Left"}
+    },
+    {
+      "name": "Brown Rice",
+      "price": 2.9,
+      "ingredients": ["Brown Rice"],
+      "allergens": [],
+      "location": {"aisle": 7, "section": "Right"}
+    },
+    {
+      "name": "Chickpeas",
+      "price": 1.6,
+      "ingredients": ["Chickpeas", "Water", "Salt"],
+      "allergens": [],
+      "location": {"aisle": 8, "section": "Right"}
+    }
+  ]
