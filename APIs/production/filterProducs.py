@@ -38,12 +38,11 @@ class MyClass(GeneratedClass):
     def onInput_onStart(self, product):
         # Example product received
         product = str(product)
-        self.tts.say("Product received from previous box" + product)
 
         # Fetch location from database
         response = self.find_product_location(product)
         
-        self.tts.say(response)
+        self.output_1(response)
 
         # Start of execution
         self.onStopped()  # Activate the output of the box
@@ -60,11 +59,28 @@ class MyClass(GeneratedClass):
         for product in self.products_data:
             if product['name'].lower() == product_name_lower:
 
-                # Retrieve location details
-                aisle = product['location']['aisle']
-                section = product['location']['section']
+                # Extracting product details
+                product_name_lower = product['name'].lower()  # Lowercase product name
+                aisle = product['location']['aisle']  # Aisle number
+                section = product['location']['section']  # Section name
+                ingredients = ", ".join(product['ingredients'])  # Joining ingredients into a string
 
-                return ("the product " + product_name_lower + " is located in aisle " + str(aisle) + " and in section " + section)
+                # Handle allergens
+                if product['allergens']:
+                    allergens = ", ".join(product['allergens'])  # Joining allergens into a string
+                else:
+                    allergens = "No allergens listed"
+
+                # Constructing the return string
+                result = (
+                    "The product " + product_name_lower + 
+                    " is located in aisle " + str(aisle) + 
+                    " and in section " + section + 
+                    ". Its ingredients are: " + ingredients + 
+                    ". Allergens: " + allergens + "."
+                )
+
+                return (result)
         
         return "Product not found."
 
