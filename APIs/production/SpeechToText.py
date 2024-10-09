@@ -7,7 +7,7 @@ import os
 class MyClass(GeneratedClass):
     def _init_(self):
         GeneratedClass._init_(self)
-        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # audio file path where recording is saved
+        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Update with your audio file path
 
     def onLoad(self):
         # Initialization code
@@ -19,11 +19,13 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p ):
+#        self.tts.say("I have received the recording. I am going to play it")
+##        self.audio_player.playFile(p)  # Play the recorded WAV file
 
         # Localize the variables to avoid attribute conflicts
         upload_url = "https://api.assemblyai.com/v2/upload"
-        transcript_url = "https://api.assemblyai.com/v2/transcript" #external assembly AI API
-        api_key = "57d2a68a356d43a597b482db470becbf"
+        transcript_url = "https://api.assemblyai.com/v2/transcript"
+        api_key = "6eed597ad7724383be32ae64d9bae503"
 
         # Step 1: Upload the audio file
         audio_url = self.upload_audio(upload_url, api_key, p)
@@ -38,11 +40,13 @@ class MyClass(GeneratedClass):
                 if transcript:
                     text = transcript['text']
                     print("Transcription response:", text)
-                    self.tts.say(str(text))  # NAO speaks the transcribed text
-                    # NAO sends the audio to the next box                    
+#                    self.tts.say(str(text))  # NAO speaks the transcribed text
+                    # NAO sends the audio to the next box
+
+#                    self.tts.say("I am going to send the recording to the next box.")
                     self.SendTranscribedTextToLLama(str(text))
-                    self.tts.say("Recording sent successfully by output 1.")
-                    
+#                    self.tts.say("Recording sent successfully by output 1.")
+
                 else:
                     print("Failed to retrieve the transcription.")
             else:
@@ -51,7 +55,7 @@ class MyClass(GeneratedClass):
             print("Failed to upload audio.")
 
         self.onStopped()
-        
+
     def SendTranscribedTextToLLama(self,Transcribedtext):
         """Send the transcribed text to the next box."""
         try:
@@ -60,7 +64,7 @@ class MyClass(GeneratedClass):
             error_message = "Error sending Transcribed text: {0}".format(str(e))
             print(error_message)
             self.tts.say(error_message)
-    
+
         pass
 
     def onInput_onStop(self):

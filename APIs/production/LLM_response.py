@@ -17,22 +17,22 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p):
-        self.tts.say("Starting to send request...")
-        
+#        self.tts.say("Starting to send request...")
+
         user_input = str(p)  # Get the user's input
 
         # Add the user's message to the conversation history
         self.conversation_history.append({
             "role": "user",
-            "content": user_input
+            "content": user_input + "give just a few lines answer"
         })
-        
+
         # Example message to demonstrate the working list
-        self.tts.say("User input has been added to history")
+#        self.tts.say("User input has been added to history")
 
         try:
             # Define the URL of the Ollama server API
-            url = 'http://192.168.76.153:11434/api/chat'
+            url = 'http://192.168.134.153:11434/api/chat'
 
             # Prepare the payload for Ollama including the conversation history
             payload = {
@@ -40,7 +40,7 @@ class MyClass(GeneratedClass):
                 "messages": self.conversation_history  # Send the conversation history
             }
 
-            self.tts.say("Sending request to server")
+            self.tts.say("Please wait while i am processing.")
 
             # Send the request to the Ollama server
             response = requests.post(url, json=payload)
