@@ -1,61 +1,80 @@
-import speech_recognition as sr
+import requests
+import time
 
-class MyClass(GeneratedClass):
-    def __init__(self):
-        GeneratedClass.__init__(self)
-        self.audio_file_path = '/home/nao/recordings/microphones/test.wav'  # Define the path to your audio file
+# Replace with your actual API key from AssemblyAI
+API_KEY = 'cfb3686fbcc14f08a67d576d3c63d29f'
 
-    def onLoad(self):
-        # Initialization code
-        pass
+# Upload audio file to AssemblyAI
+def upload_audio(file_path):
+    headers = {
+        'authorization': API_KEY
+    }
 
-    def onUnload(self):
-        # Clean-up code
-        pass
+    # Open the audio file in binary mode
+    with open(file_path, 'rb') as audio_file:
+        response = requests.post(
+            'https://api.assemblyai.com/v2/upload',
+            headers=headers,
+            files={'file': audio_file}
+        )
+
+    # Check if upload was successful
+    if response.status_code == 200:
+        return response.json()['upload_url']
+    else:
+        raise Exception('Audio upload failed. Status code: ', response.status_code)
+
+# Send the uploaded audio for transcription
+def request_transcription(upload_url):
+    endpoint = "https://api.assemblyai.com/v2/transcript"
+    
+    json_data = {
+        "audio_url": upload_url
+    }
+
+    headers = {
+        "authorization": API_KEY,
+        "content-type": "application/json"
+    }
+
+    response = requests.post(endpoint, json=json_data, headers=headers)
+
+    # Check if request was successful
+    if response.status_code == 200:
+        return response.json()['id']
+    else:
+        raise Exception('Transcription request failed. Status code: ', response.status_code)
+
+# Get the transcription result
+def get_transcription_result(transcript_id):
+    endpoint = f"https://api.assemblyai.com/v2/transcript/{transcript_id}"
+    
+    headers = {
+        "authorization": API_KEY
+    }
+
+    while True:
+        response = requests.get(endpoint, headers=headers)
+
+        # If transcription is complete, return it
+        if response.status_code == 200:
+            transcript_data = response.json()
+            if transcript_data['status'] == 'completed':
+                return transcript_data['text']
+            elif transcript_data['status'] == 'failed':
+                raise Exception('Transcription failed.')
+        else:
+            raise Exception('Failed to retrieve transcription result. Status code: ', response.status_code)
+
+        # Wait a few seconds before checking again
+        # print("waiting for 5 seconds")
+        time.sleep(10)
+
+# Full function to transcribe audio
+def transcribe_audio(file_path):
+    upload_url = upload_audio(file_path)
+    transcript_id = request_transcription(upload_url)
+    transcription_text = get_transcription_result(transcript_id)
+    return transcription_text
 
 
-    def access_recorded_audio(self):
-        # Open and read the recorded file
-        try:
-            with open(self.audio_file_path, 'rb') as audio_file:
-                audio_data = audio_file.read()
-                # Do something with the audio data (e.g., analyze it)
-                print("Successfully accessed the recorded audio.")
-                # Example: print first 100 bytes (if it's not too large)
-                print(audio_data[:100])
-        except IOError as e:
-            print("Failed to access the recorded audio file: {0}".format(e))
-    def audio_to_text(self):
-        # Initialize recognizer
-        recognizer = sr.Recognizer()
-
-        try:
-            # Load audio file
-            with sr.AudioFile(self.audio_file_path) as source:
-                audio = recognizer.record(source)
-
-            # Recognize speech using Google Web Speech API
-            text = recognizer.recognize_google(audio)
-            return text
-
-        except sr.UnknownValueError:
-            return "Google Web Speech API could not understand the audio"
-        except sr.RequestError as e:
-            return "Could not request results from Google Web Speech API; {0}".format(e)
-        except Exception as e:
-            return "An error occurred: {0}".format(e)
-
-    def onInput_onStart(self, p):
-
-#        print("receiving the audio file")
-#        audio = p
-#        self.tts.say(audio)
-        # Process the audio and print the text
-#        text = self.audio_to_text()
-        print("Converted Text:", text)
-        # Activate the output of the box
-        # self.onStopped() # Uncomment this if needed
-
-    def onInput_onStop(self):
-        self.onUnload()  # Reuse the clean-up as the box is stopped
-        self.onStopped()  # Activate the output of the box

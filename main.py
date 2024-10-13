@@ -1,14 +1,10 @@
-# Assuming you have the converted text in a variable named 'converted_text'
-from APIs.getResponseFromLLMgenerateAPI import generate_response
-from SpeechToText import convert_wav_to_text
+# Example usage:
+from APIs.test.ollamaResponse import get_ollama_response
+from APIs.test.speechToText import transcribe_audio
 
-if __name__ == "__main__":
-    wav_file_path = "whatIsYoutube.wav"
-    converted_text = convert_wav_to_text(wav_file_path)
-    print("Transcribed Text:", converted_text)
 
-if converted_text: 
-    api_response = generate_response(converted_text)
-
-if api_response:
-    print("API Response:", api_response)
+file_path = '20230607_me_canadian_wildfires.mp3'
+transcribeText = transcribe_audio(file_path)
+print("got transcribed text")
+response = get_ollama_response("give me one line summary of this text" + transcribeText)
+print(response)
