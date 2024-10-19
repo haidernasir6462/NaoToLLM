@@ -8,11 +8,11 @@ def get_ollama_response(user_input):
     # Append the user's input to the conversation history
     conversation_history.append({
         "role": "user",
-        "content": user_input + " give just a few lines answer"
+        "content": user_input + ""
     })
 
     # Define the URL for the Ollama API
-    url = 'http://192.168.1.14:11434/api/chat'
+    url = 'http://192.168.152.153:11434/api/chat'
 
     # Prepare the payload with the model and conversation history
     payload = {
