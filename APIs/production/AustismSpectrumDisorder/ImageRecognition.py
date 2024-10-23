@@ -83,34 +83,34 @@ class MyClass(GeneratedClass):
     def extract_relevant_data(self, response):
         try:
             # Confirm the response has the expected structure
-            
+
             # Safely extract the 'photos' and 'tags' fields
             photos = response.get('photos', [])
             if not photos:
                 raise ValueError("No photos found in the response")
-            
+
             tags = photos[0].get('tags', [])
             if not tags:
                 raise ValueError("No tags found for the photo")
-            
+
             # Extract the first face data from the tags
             face = tags[0]
-            
+
             # Extract relevant attributes safely
             attributes = face.get('attributes', {})
             gender = attributes.get('gender', {}).get('value', 'Unknown')
             age_est = attributes.get('age_est', {}).get('value', 'Unknown')
             mood = attributes.get('mood', {}).get('value', 'Unknown')
             liveness = attributes.get('liveness', {}).get('value', 'Unknown')
-    
+
 #            self.tts.say("Information extracted successfully")
-            
-        
+
+
             # Check if all required attributes are present
             if gender != 'Unknown' and age_est != 'Unknown' and mood != 'Unknown' and liveness != 'Unknown':
                 # Create the final attributes string
                 attributes_str = (
-                    "The gender is " + str(gender) + ", estimated age is " + str(age_est) + ", the mood is " + str(mood) +               ", and the liveliness is " + str(liveness) + "."
+                    "the gender is " + str(gender) + ", estimated age is " + str(age_est) + ", the mood is " + str(mood) +               ", and the liveliness is " + str(liveness) + "."
                 )
 
                 print(attributes_str)
@@ -121,13 +121,14 @@ class MyClass(GeneratedClass):
                 print("Missing attributes in the picture: Gender: {}, Age: {}, Mood: {}, Liveness: {}".format(
                     gender, age_est, mood, liveness
                 ))
-    
+                self.output_1("None")
+
         except Exception as e:
             # Catch and log any errors
             error_message = "Error extracting relevant data: " + str(e)
             print(error_message)
             self.tts.say(error_message)
-    
+
 
     def onInput_onStop(self):
         """Stop the process and clean up resources."""

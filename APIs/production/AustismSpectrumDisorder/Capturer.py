@@ -32,7 +32,7 @@ class MyClass(GeneratedClass):
 
     def take_photo_and_speak(self):
         try:
-            
+
             time.sleep(2)
 
             # Set camera parameters
