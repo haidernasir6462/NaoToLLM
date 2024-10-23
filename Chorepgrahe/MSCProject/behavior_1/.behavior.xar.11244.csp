@@ -132,7 +132,7 @@ class MyClass(GeneratedClass):
               <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="7" />
               <Resource name="Speech" type="Lock" timeout="0" />
             </Box>
-            <Box name="Listener" id="1" localization="8" tooltip="" x="176" y="14">
+            <Box name="Listener" id="1" localization="8" tooltip="" x="166" y="23">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -217,7 +217,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="AssemblyAI" id="7" localization="8" tooltip="" x="301" y="6">
+            <Box name="AssemblyAI" id="7" localization="8" tooltip="" x="349" y="27">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -367,7 +367,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="LLM_Response (1)" id="4" localization="8" tooltip="Say the text received on its input." x="612" y="382">
+            <Box name="LLM_Response (1)" id="4" localization="8" tooltip="Say the text received on its input." x="682" y="410">
               <bitmap>media/images/box/interaction/say.png</bitmap>
               <script language="4">
                 <content>
@@ -564,7 +564,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="AssemblyAI (1)" id="9" localization="8" tooltip="" x="517" y="210">
+            <Box name="AssemblyAI (1)" id="9" localization="8" tooltip="" x="500" y="300">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -714,7 +714,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="filterProducts" id="3" localization="8" tooltip="" x="945" y="352">
+            <Box name="filterProducts" id="3" localization="8" tooltip="" x="847" y="304">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -1077,7 +1077,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="Capturer" id="10" localization="8" tooltip="" x="146" y="153">
+            <Box name="Capturer" id="10" localization="8" tooltip="" x="167" y="153">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
