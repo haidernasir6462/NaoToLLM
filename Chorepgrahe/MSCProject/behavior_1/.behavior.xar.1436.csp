@@ -15,7 +15,7 @@
       <BehaviorLayer name="behavior_layer1">
         <BehaviorKeyframe name="keyframe1" index="1">
           <Diagram scale="100">
-            <Box name="LLM_Response" id="2" localization="8" tooltip="Say the text received on its input." x="997" y="218">
+            <Box name="LLM_Response" id="2" localization="8" tooltip="Say the text received on its input." x="940" y="1233">
               <bitmap>media/images/box/interaction/say.png</bitmap>
               <script language="4">
                 <content>
@@ -132,7 +132,7 @@ class MyClass(GeneratedClass):
               <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="7" />
               <Resource name="Speech" type="Lock" timeout="0" />
             </Box>
-            <Box name="Listener" id="1" localization="8" tooltip="" x="348" y="40">
+            <Box name="Listener" id="1" localization="8" tooltip="" x="291" y="1055">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -209,7 +209,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="AssemblyAI" id="7" localization="8" tooltip="" x="635" y="44">
+            <Box name="AssemblyAI" id="7" localization="8" tooltip="" x="578" y="1059">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -359,7 +359,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="LLM_Response (1)" id="4" localization="8" tooltip="Say the text received on its input." x="956" y="873">
+            <Box name="LLM_Response (1)" id="4" localization="8" tooltip="Say the text received on its input." x="519" y="314">
               <bitmap>media/images/box/interaction/say.png</bitmap>
               <script language="4">
                 <content>
@@ -471,7 +471,7 @@ class MyClass(GeneratedClass):
               <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="8" />
               <Resource name="Speech" type="Lock" timeout="0" />
             </Box>
-            <Box name="Listener (1)" id="8" localization="8" tooltip="" x="643" y="844">
+            <Box name="Listener (1)" id="8" localization="8" tooltip="" x="188" y="126">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -556,7 +556,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="AssemblyAI (1)" id="9" localization="8" tooltip="" x="774" y="763">
+            <Box name="AssemblyAI (1)" id="9" localization="8" tooltip="" x="297" y="332">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -706,7 +706,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="filterProducts" id="3" localization="8" tooltip="" x="1121" y="767">
+            <Box name="filterProducts" id="3" localization="8" tooltip="" x="693" y="167">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -817,7 +817,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="6" />
             </Box>
-            <Box name="FullQuery" id="5" localization="8" tooltip="" x="1369" y="889">
+            <Box name="FullQuery" id="5" localization="8" tooltip="" x="847" y="305">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -921,7 +921,7 @@ class MyClass(GeneratedClass):
               <Input name="input_1" type="0" type_size="1" nature="1" inner="0" tooltip="" id="4" />
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" />
             </Box>
-            <Box name="ImageRecognition" id="6" localization="8" tooltip="" x="639" y="208">
+            <Box name="ImageRecognition" id="6" localization="8" tooltip="" x="582" y="1223">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -1069,7 +1069,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="Capturer" id="10" localization="8" tooltip="" x="325" y="211">
+            <Box name="Capturer" id="10" localization="8" tooltip="" x="268" y="1226">
               <bitmap>media/images/box/box-python-script.png</bitmap>
               <script language="4">
                 <content>
@@ -1148,7 +1148,7 @@ class MyClass(GeneratedClass):
               <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
               <Output name="output_1" type="0" type_size="1" nature="2" inner="0" tooltip="" id="5" />
             </Box>
-            <Box name="Switch Case" id="13" localization="8" tooltip="Test input value and stimulate the output matching to this value. If there is no&#x0A;matching output, the default output (onDefault) is stimulated.&#x0A;&#x0A;You can edit a case by left double-clicking on the line. You can add a&#x0A;case by right clicking on a line and selecting &apos;Insert a row&apos;. You can delete&#x0A;a case by right clicking on a line and selecting &apos;Remove a row&apos;." plugin="dispatcher_plugin" x="954" y="17">
+            <Box name="Switch Case" id="13" localization="8" tooltip="Test input value and stimulate the output matching to this value. If there is no&#x0A;matching output, the default output (onDefault) is stimulated.&#x0A;&#x0A;You can edit a case by left double-clicking on the line. You can add a&#x0A;case by right clicking on a line and selecting &apos;Insert a row&apos;. You can delete&#x0A;a case by right clicking on a line and selecting &apos;Remove a row&apos;." plugin="dispatcher_plugin" x="897" y="1032">
               <bitmap>media/images/box/interaction/choice.png</bitmap>
               <script language="4">
                 <content>
@@ -1200,12 +1200,11 @@ class MyClass(GeneratedClass):
             <Link inputowner="3" indexofinput="2" outputowner="4" indexofoutput="5" />
             <Link inputowner="6" indexofinput="2" outputowner="10" indexofoutput="5" />
             <Link inputowner="2" indexofinput="4" outputowner="6" indexofoutput="5" />
-            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
-            <Link inputowner="10" indexofinput="2" outputowner="0" indexofoutput="2" />
-            <Link inputowner="0" indexofinput="4" outputowner="13" indexofoutput="3" />
             <Link inputowner="13" indexofinput="2" outputowner="2" indexofoutput="5" />
             <Link inputowner="10" indexofinput="2" outputowner="13" indexofoutput="4" />
             <Link inputowner="1" indexofinput="2" outputowner="13" indexofoutput="4" />
+            <Link inputowner="8" indexofinput="2" outputowner="0" indexofoutput="2" />
+            <Link inputowner="0" indexofinput="4" outputowner="5" indexofoutput="5" />
           </Diagram>
         </BehaviorKeyframe>
       </BehaviorLayer>
